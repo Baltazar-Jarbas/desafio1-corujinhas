@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestauranteSaborDoBrasil.Infra.Data.Context;
 
 namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
 {
     [DbContext(typeof(WritingDbContext))]
-    partial class WritingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210922215940_AddMesa")]
+    partial class AddMesa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,73 +39,6 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.ToTable("Cardapio");
                 });
 
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Comanda", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataEmissao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ResponsavelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comanda");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ComandaMesa", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ComandaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MesaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComandaId")
-                        .IsUnique();
-
-                    b.HasIndex("MesaId");
-
-                    b.ToTable("ComandaMesa");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Fornecedor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Cnpj")
-                        .HasColumnType("varchar(14)");
-
-                    b.Property<string>("InscricaoEstadual")
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("InscricaoMunicipal")
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("NomeFantassia")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("RazaoSocial")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Fornecedor");
-                });
-
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.HistoricoMesa", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,7 +48,7 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.Property<DateTime>("DataAbertura")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataFechamento")
+                    b.Property<DateTime>("DataFechamento")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("MesaId")
@@ -148,57 +83,6 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ingrediente");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemComanda", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ComandaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PratoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Valor")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComandaId");
-
-                    b.HasIndex("PratoId");
-
-                    b.ToTable("ItemComanda");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemNotaEntrada", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("IngredienteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("NotaEntradaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Quantidade")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IngredienteId");
-
-                    b.HasIndex("NotaEntradaId");
-
-                    b.ToTable("ItemNotaEntrada");
                 });
 
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Log", b =>
@@ -375,12 +259,6 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.Property<Guid>("IngredienteId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ItemComandaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ItemNotaId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<float>("Quantidade")
                         .HasColumnType("real");
 
@@ -395,39 +273,7 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
 
                     b.HasIndex("IngredienteId");
 
-                    b.HasIndex("ItemComandaId");
-
-                    b.HasIndex("ItemNotaId")
-                        .IsUnique()
-                        .HasFilter("[ItemNotaId] IS NOT NULL");
-
                     b.ToTable("MovimentacaoEstoque");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.NotaEntrada", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataEmissao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataEntrada")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("FornecedorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FornecedorId");
-
-                    b.ToTable("NotaEntrada");
                 });
 
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Prato", b =>
@@ -498,25 +344,6 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.ToTable("Receita");
                 });
 
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ComandaMesa", b =>
-                {
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Comanda", "Comanda")
-                        .WithOne("ComandaMesa")
-                        .HasForeignKey("RestauranteSaborDoBrasil.Domain.Models.ComandaMesa", "ComandaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Mesa", "Mesa")
-                        .WithMany("Comandas")
-                        .HasForeignKey("MesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comanda");
-
-                    b.Navigation("Mesa");
-                });
-
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.HistoricoMesa", b =>
                 {
                     b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Mesa", "Mesa")
@@ -528,44 +355,6 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.Navigation("Mesa");
                 });
 
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemComanda", b =>
-                {
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Comanda", "Comanda")
-                        .WithMany("Itens")
-                        .HasForeignKey("ComandaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Prato", "Prato")
-                        .WithMany("Comandas")
-                        .HasForeignKey("PratoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comanda");
-
-                    b.Navigation("Prato");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemNotaEntrada", b =>
-                {
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Ingrediente", "Ingrediente")
-                        .WithMany("ItemNotas")
-                        .HasForeignKey("IngredienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.NotaEntrada", "NotaEntrada")
-                        .WithMany("Itens")
-                        .HasForeignKey("NotaEntradaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingrediente");
-
-                    b.Navigation("NotaEntrada");
-                });
-
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.MovimentacaoEstoque", b =>
                 {
                     b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Ingrediente", "Ingrediente")
@@ -574,30 +363,7 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.ItemComanda", "ItemComanda")
-                        .WithMany("MovimentacoesEstoque")
-                        .HasForeignKey("ItemComandaId");
-
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.ItemNotaEntrada", "ItemNotaEntrada")
-                        .WithOne("MovimentacaoEstoque")
-                        .HasForeignKey("RestauranteSaborDoBrasil.Domain.Models.MovimentacaoEstoque", "ItemNotaId");
-
                     b.Navigation("Ingrediente");
-
-                    b.Navigation("ItemComanda");
-
-                    b.Navigation("ItemNotaEntrada");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.NotaEntrada", b =>
-                {
-                    b.HasOne("RestauranteSaborDoBrasil.Domain.Models.Fornecedor", "Fornecedor")
-                        .WithMany("Notas")
-                        .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.PratoCardapio", b =>
@@ -643,54 +409,21 @@ namespace RestauranteSaborDoBrasil.Infra.Data.Migrations
                     b.Navigation("Pratos");
                 });
 
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Comanda", b =>
-                {
-                    b.Navigation("ComandaMesa");
-
-                    b.Navigation("Itens");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Fornecedor", b =>
-                {
-                    b.Navigation("Notas");
-                });
-
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Ingrediente", b =>
                 {
-                    b.Navigation("ItemNotas");
-
                     b.Navigation("Movimentacoes");
 
                     b.Navigation("Receitas");
                 });
 
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemComanda", b =>
-                {
-                    b.Navigation("MovimentacoesEstoque");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.ItemNotaEntrada", b =>
-                {
-                    b.Navigation("MovimentacaoEstoque");
-                });
-
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Mesa", b =>
                 {
-                    b.Navigation("Comandas");
-
                     b.Navigation("Historico");
-                });
-
-            modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.NotaEntrada", b =>
-                {
-                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("RestauranteSaborDoBrasil.Domain.Models.Prato", b =>
                 {
                     b.Navigation("Cardapios");
-
-                    b.Navigation("Comandas");
 
                     b.Navigation("Receitas");
                 });
